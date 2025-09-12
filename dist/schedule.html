@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body class="bg-gradient-to-br from-white to-blue-400 min-h-screen font-sans text-gray-800">
+
+    <!-- Header -->
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 px-6 sm:px-8 py-3 bg-white shadow-md sticky top-0 z-50">
+        <div class="flex items-center gap-2 text-xl font-bold text-primary select-none">
+            <svg class="w-7 h-7 fill-primary" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M16 1H8a4 4 0 00-4 4v12a4 4 0 004 4h8a4 4 0 004-4V5a4 4 0 00-4-4zM6 5a2 2 0 012-2h8a2 2 0 012 2v4H6V5zm12 8v1a2 2 0 01-2 2H8a2 2 0 01-2-2v-1h12zM7.5 18a1 1 0 100 2 1 1 0 000-2zm9 0a1 1 0 100 2 1 1 0 000-2z"/>
+            </svg>
+            BusTracker
+        </div>
+        
+        <nav aria-label="Primary Navigation">
+            <ul class="flex flex-wrap gap-4 sm:gap-8 text-gray-600 font-semibold">
+                <button><a href="../start/index.html"><li class="text-primary cursor-pointer select-none" tabindex="0" aria-current="page">Live Map</li></a></button>
+                <button><a href="#"><li class="cursor-pointer select-none hover:text-primary transition-colors" tabindex="0">Schedules</li></a></button>
+                <button><a href="../start/routes.html"><li class="cursor-pointer select-none hover:text-primary transition-colors" tabindex="0">Routes</li></a></button>
+            </ul>
+        </nav>
+        
+        <div class="flex items-center gap-6 text-gray-700 text-xl select-none">
+            <button class="relative focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-full p-1 hover:text-primary transition-colors" aria-label="Notifications" title="Notifications" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-6 h-6" viewBox="0 0 24 24">
+                    <path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 01-3.46 0"></path>
+                </svg>
+                <span class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full" aria-live="polite" aria-atomic="true">2</span>
+            </button>
+            <button class="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-full p-1 hover:text-primary transition-colors" aria-label="User Account" title="User Account" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-6 h-6" viewBox="0 0 24 24">
+                    <circle cx="12" cy="7" r="4"></circle>
+                    <path d="M5.5 21a13.9 13.9 0 0113 0"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Fullscreen Nearby Routes Overlay (hidden by default) -->
+    <div
+      id="nearby-routes-overlay"
+      class="fixed inset-0 bg-white z-50 overflow-auto p-8 hidden"
+    >
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-bold text-gray-800 p-2 m-2.5">Nearby Routes</h2>
+      </div>
+
+      <div class="space-y-6">
+        <!-- Route 1 -->
+        <div class="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
+          <div class="flex justify-between items-start gap-6 cursor-pointer">
+            <div
+              class="w-14 h-12 bg-blue-500 text-white font-bold text-2xl flex items-center justify-center rounded-lg shadow-md"
+            >
+              42
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-bold text-xl text-gray-800 truncate">
+                Express Downtown
+              </div>
+              <div
+                class="flex items-center gap-2 text-base text-gray-600 truncate"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 21a9 9 0 1 0-9-9" />
+                </svg>
+                Financial District · 0.2 mi away
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="font-bold text-xl">3 min</div>
+              <div
+                class="bg-green-500 text-white text-sm font-semibold px-3 py-1 rounded-full flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+                On Time
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex justify-between mt-4 text-base font-semibold text-blue-500"
+          >
+            <a
+              href="#"
+              class="flex items-center gap-2 hover:text-blue-700 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+              </svg>
+              Schedule
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-2 hover:text-blue-700 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              Track
+            </a>
+          </div>
+        </div>
+        <!-- Route 2 -->
+        <div class="bg-white rounded-lg shadow-lg p-6 border border-gray-200 cursor-pointer">
+          <div class="flex justify-between items-start gap-6">
+            <div
+              class="w-14 h-12 bg-blue-500 text-white font-bold text-2xl flex items-center justify-center rounded-lg shadow-md"
+            >
+              48
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-bold text-xl text-gray-800 truncate">
+                Airport
+              </div>
+              <div
+                class="flex items-center gap-2 text-base text-gray-600 truncate"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 21a9 9 0 1 0-9-9" />
+                </svg>
+                Final District · 0.8 mi away
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="font-bold text-xl">8 min</div>
+              <div
+                class="bg-green-500 text-white text-sm font-semibold px-3 py-1 rounded-full flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+                Delayed
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex justify-between mt-4 text-base font-semibold text-blue-500"
+          >
+            <a
+              href="#"
+              class="flex items-center gap-2 hover:text-blue-700 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+              </svg>
+              Schedule
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-2 hover:text-blue-700 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              Track
+            </a>
+          </div>
+        </div>
+        <!-- Route 3 -->
+        <div class="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
+          <div class="flex justify-between items-start gap-6">
+            <div
+              class="w-14 h-12 bg-blue-500 text-white font-bold text-2xl flex items-center justify-center rounded-lg shadow-md"
+            >
+              42
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-bold text-xl text-gray-800 truncate">
+                Express Downtown
+              </div>
+              <div
+                class="flex items-center gap-2 text-base text-gray-600 truncate"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 21a9 9 0 1 0-9-9" />
+                </svg>
+                Financial District · 0.2 mi away
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="font-bold text-xl">3 min</div>
+              <div
+                class="bg-green-500 text-white text-sm font-semibold px-3 py-1 rounded-full flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+                On Time
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex justify-between mt-4 text-base font-semibold text-blue-500"
+          >
+            <a
+              href="#"
+              class="flex items-center gap-2 hover:text-blue-700 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+              </svg>
+              Schedule
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-2 hover:text-blue-700 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              Track
+            </a>
+          </div>
+        </div>
+        <!-- Route 4 -->
+        <div class="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
+          <div class="flex justify-between items-start gap-6">
+            <div
+              class="w-14 h-12 bg-blue-500 text-white font-bold text-2xl flex items-center justify-center rounded-lg shadow-md"
+            >
+              42
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-bold text-xl text-gray-800 truncate">
+                Express Downtown
+              </div>
+              <div
+                class="flex items-center gap-2 text-base text-gray-600 truncate"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 21a9 9 0 1 0-9-9" />
+                </svg>
+                Financial District · 0.2 mi away
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="font-bold text-xl">3 min</div>
+              <div
+                class="bg-green-500 text-white text-sm font-semibold px-3 py-1 rounded-full flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+                On Time
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex justify-between mt-4 text-base font-semibold text-blue-500"
+          >
+            <a
+              href="#"
+              class="flex items-center gap-2 hover:text-blue-700 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+              </svg>
+              Schedule
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-2 hover:text-blue-700 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              Track
+            </a>
+          </div>
+        </div>
+        <!-- Route 5 -->
+        <div class="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
+          <div class="flex justify-between items-start gap-6">
+            <div
+              class="w-14 h-12 bg-blue-500 text-white font-bold text-2xl flex items-center justify-center rounded-lg shadow-md"
+            >
+              42
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-bold text-xl text-gray-800 truncate">
+                Express Downtown
+              </div>
+              <div
+                class="flex items-center gap-2 text-base text-gray-600 truncate"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 21a9 9 0 1 0-9-9" />
+                </svg>
+                Financial District · 0.2 mi away
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="font-bold text-xl">3 min</div>
+              <div
+                class="bg-green-500 text-white text-sm font-semibold px-3 py-1 rounded-full flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+                On Time
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex justify-between mt-4 text-base font-semibold text-blue-500"
+          >
+            <a
+              href="#"
+              class="flex items-center gap-2 hover:text-blue-700 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+              </svg>
+              Schedule
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-2 hover:text-blue-700 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              Track
+            </a>
+          </div>
+        </div>
+
+        <!-- Route 6 -->
+        <div class="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
+          <div class="flex justify-between items-start gap-6">
+            <div
+              class="w-14 h-12 bg-blue-500 text-white font-bold text-2xl flex items-center justify-center rounded-lg shadow-md"
+            >
+              15
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-bold text-xl text-gray-800 truncate">
+                City Loop
+              </div>
+              <div
+                class="flex items-center gap-2 text-base text-gray-600 truncate"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 21a9 9 0 1 0-9-9" />
+                </svg>
+                University Campus · 0.4 mi away
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="font-bold text-xl">8 min</div>
+              <div
+                class="bg-yellow-400 text-amber-900 text-sm font-semibold px-3 py-1 rounded-full flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="6" x2="12" y2="12" />
+                  <line x1="12" y1="12" x2="16" y2="14" />
+                </svg>
+                Delayed
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex justify-between mt-4 text-base font-semibold text-blue-500"
+          >
+            <a
+              href="#"
+              class="flex items-center gap-2 hover:text-blue-700 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+              </svg>
+              Schedule
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-2 hover:text-blue-700 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              Track
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
