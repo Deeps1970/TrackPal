@@ -4,41 +4,65 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="../style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0d86ff',
+                        secondary: '#3ba0ff',
+                    }
+                }
+            }
+        }
+    </script>
   </head>
   <body class="bg-gradient-to-br from-white to-blue-400 min-h-screen font-sans text-gray-800">
 
-    <!-- Header -->
-    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 px-6 sm:px-8 py-3 bg-white shadow-md sticky top-0 z-50">
-        <div class="flex items-center gap-2 text-xl font-bold text-primary select-none">
-            <svg class="w-7 h-7 fill-primary" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M16 1H8a4 4 0 00-4 4v12a4 4 0 004 4h8a4 4 0 004-4V5a4 4 0 00-4-4zM6 5a2 2 0 012-2h8a2 2 0 012 2v4H6V5zm12 8v1a2 2 0 01-2 2H8a2 2 0 01-2-2v-1h12zM7.5 18a1 1 0 100 2 1 1 0 000-2zm9 0a1 1 0 100 2 1 1 0 000-2z"/>
-            </svg>
-            BusTracker
+    <!-- Header Area -->
+    <header class="flex flex-wrap sm:flex-nowrap justify-between items-center gap-4 px-6 sm:px-8 py-3 bg-white shadow-md sticky top-0 z-50">
+        <div class="flex items-center justify-between w-full sm:w-auto">
+            <div class="flex items-center gap-2 text-xl font-bold text-primary select-none">
+                <svg class="w-7 h-7 fill-primary" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M16 1H8a4 4 0 00-4 4v12a4 4 0 004 4h8a4 4 0 004-4V5a4 4 0 00-4-4zM6 5a2 2 0 012-2h8a2 2 0 012 2v4H6V5zm12 8v1a2 2 0 01-2 2H8a2 2 0 01-2-2v-1h12zM7.5 18a1 1 0 100 2 1 1 0 000-2zm9 0a1 1 0 100 2 1 1 0 000-2z"></path>
+                </svg>
+                BusTracker
+            </div>
+            <!-- Hamburger button -->
+            <div class="sm:hidden">
+                <button id="menu-toggle" class="text-gray-700 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary rounded">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
-        
-        <nav aria-label="Primary Navigation">
-            <ul class="flex flex-wrap gap-4 sm:gap-8 text-gray-600 font-semibold">
-                <button><a href="../index.html"><li class="text-primary cursor-pointer select-none" tabindex="0" aria-current="page">Live Map</li></a></button>
-                <button><a href="#"><li class="cursor-pointer select-none hover:text-primary transition-colors" tabindex="0">Schedules</li></a></button>
-                <button><a href="./routes.html"><li class="cursor-pointer select-none hover:text-primary transition-colors" tabindex="0">Routes</li></a></button>
-            </ul>
-        </nav>
-        
-        <div class="flex items-center gap-6 text-gray-700 text-xl select-none">
-            <button class="relative focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-full p-1 hover:text-primary transition-colors" aria-label="Notifications" title="Notifications" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-6 h-6" viewBox="0 0 24 24">
-                    <path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                    <path d="M13.73 21a2 2 0 01-3.46 0"></path>
-                </svg>
-                <span class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full" aria-live="polite" aria-atomic="true">2</span>
-            </button>
-            <button class="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-full p-1 hover:text-primary transition-colors" aria-label="User Account" title="User Account" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-6 h-6" viewBox="0 0 24 24">
-                    <circle cx="12" cy="7" r="4"></circle>
-                    <path d="M5.5 21a13.9 13.9 0 0113 0"></path>
-                </svg>
-            </button>
+
+        <!-- Menu items -->
+        <div id="menu" class="hidden sm:flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto">
+            <nav aria-label="Primary Navigation">
+                <ul class="flex flex-col sm:flex-row gap-4 sm:gap-8 text-gray-600 font-semibold">
+                    <li><a href="../index.html" class="cursor-pointer select-none hover:text-primary transition-colors" tabindex="0" aria-current="page">Live Map</a></li>
+                    <li><a href="#" class="text-primary cursor-pointer select-none" tabindex="0">Schedules</a></li>
+                    <li><a href="./routes.html" class="cursor-pointer select-none hover:text-primary transition-colors" tabindex="0">Routes</a></li>
+                </ul>
+            </nav>
+            <div class="flex items-center gap-6 text-gray-700 text-xl select-none mt-4 sm:mt-0">
+                <button class="relative focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-full p-1 hover:text-primary transition-colors" aria-label="Notifications" title="Notifications" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-6 h-6" viewBox="0 0 24 24">
+                        <path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 01-3.46 0"></path>
+                    </svg>
+                    <span class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full" aria-live="polite" aria-atomic="true">2</span>
+                </button>
+                <button class="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-full p-1 hover:text-primary transition-colors" aria-label="User Account" title="User Account" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-6 h-6" viewBox="0 0 24 24">
+                        <circle cx="12" cy="7" r="4"></circle>
+                        <path d="M5.5 21a13.9 13.9 0 0113 0"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -519,8 +543,13 @@
         </div>
       </div>
     </div>
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const menu = document.getElementById('menu');
+
+        menuToggle.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+    </script>
   </body>
 </html>
-
-
-
